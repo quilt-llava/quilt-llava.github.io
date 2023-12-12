@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Youtube educational histopathology videos provide a great source of grounded histopathology data for visual instruction tuning.">
+  <meta name="keywords" content="LLaVA, Quilt, visual instruction tuning">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quilt-LLaVA: Visual Instruction Tuning by Extracting Localized Narratives from Open-Source Histopathology Videos</title>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LKW49M1Y2V"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LKW49M1Y2V');
+</script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/quiltllama_fav.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://mehmetsayginseyfioglu.github.io">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://quilt1m.github.io/">
+            Quilt-1M
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Quilt-LLaVA: Visual Instruction Tuning by Extracting Localized Narratives from Open-Source Histopathology Videos</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://mehmetsayginseyfioglu.github.io/">Mehmet Saygin Seyfioglu</a><sup><span>&#9824;</span></sup>,</span>
+            <span class="author-block">
+              <a href="https://wisdomikezogwo.github.io/">Wisdom O. Ikezogwo</a><sup><span>&#9824;</span></sup>,</span>
+            <span class="author-block">
+              <a href="https://fghezloo.github.io/">Fatemeh Ghezloo</a><sup><span>&#9824;</span></sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://ranjaykrishna.com/index.html">Ranjay Krishna</a>,
+            </span>
+            <span class="author-block">
+              <a href="https://homes.cs.washington.edu/~shapiro/">Linda Shapiro</a>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">University of Washington</span><br>
+            <span class="author-block new-line"><sup><span>&#9824;</span></sup>Equal Contribution</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2312.04746"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2312.04746"
+                   class="external-link button is-normal is-rounded is-dark" disabled>
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  
+                  <span>Code-Coming Soon!</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <a href="https://github.com/"
+                   class="external-link button is-normal is-rounded is-dark" disabled>
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data-Coming Soon!</span>
+                  </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="static/images/teaser.png" alt="Teaser." style="padding-left: 60px; height: 600px; width: auto;"/>
+      <h2 class="subtitle has-text-centered">
+        Quilt-LLaVA is capable of <span style="color: lightblue;">describing</span> the prominent medical regions within a histopathology patch. Additionally, it can be utilized to <span style="color: lightgreen;">reason</span> towards a diagnosis based on the current observations. Note: The image includes eosinophils and lymphocytes, and is sampled from a WSI showing rare benign dermatitis.
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- <section class="section">
+  <div class="container is-max-desktop">
+    Abstract. -->
+ <!--    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Key Takeaways</h2>
+        <div class="content has-text-justified">
+          <p>
+
+            * Visual Instruction Tuning in histopathology has not been successfull so far due to two reasons: 1) Image-language datasets lacking spatial groundings for words, thus it is hard for models to have spatial awareness, 2) Existing <a href="https://arxiv.org/abs/2306.00890"> datasets</a> are based of PubMed, which provides isolated image-text pairs, with which it is very challenging to encode holistic understanding.
+            * We utilize educational YouTube content to establish a visual instruction tuning dataset. First, we extract narrator's mouse cursor to ground their words in images to encode spatial awareness, and second we utilize broader video content when generating our instruction tuning dataset, thereby providing holistic understanding of Whole Slide Images.
+            * With our instruction tuning data, we jointly train a vision and text encoder to have a visual chatbot, which outperforms SOTA on both in house and public histopathology benchmarks.
+
+
+            
+          </p>
+        </div>
+      </div>
+    </div> --> 
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Key Takeaways</h2>
+        <div class="content has-text-justified">
+          <ul>
+            <li>Visual Instruction Tuning in histopathology has not been successful so far due to two reasons: <b>1)</b> Image-language datasets lacking spatial groundings for words, making it hard for models to have spatial awareness, and <b>2)</b> Existing <a href="https://arxiv.org/abs/2306.00890">datasets</a> are based on PubMed, which provides isolated image-text pairs, with which it is very challenging to encode holistic understanding.</li>
+            <li>We utilize educational YouTube content to establish a visual instruction tuning dataset. First, we extract the narrator's mouse cursor to ground their words in images to encode spatial awareness, and second, we utilize broader video content when generating our instruction tuning dataset, thereby providing a holistic understanding of Whole Slide Images.</li>
+            <li>With our instruction tuning data, we jointly train a vision and text encoder to have a visual chatbot, which outperforms SOTA on both in-house and public histopathology benchmarks.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+
+
+            The gigapixel scale of whole slide images (WSIs) poses a challenge for histopathology multi-modal chatbots, requiring a global WSI analysis for diagnosis, compounding evidence from different WSI patches. Current visual instruction datasets, generated through large language models, focus on creating question/answer pairs for individual image patches, which may lack diagnostic capacity on their own in histopathology, further complicated by the absence of spatial grounding in histopathology image captions.
+           </p>
+           <p>
+            To bridge this gap, we introduce Quilt-Instruct, a large-scale dataset of 107,131 histopathology-specific instruction question/answer pairs, that is collected by leveraging educational histopathology videos from YouTube, which provides spatial localization of captions by automatically extracting narrators' cursor movements. In addition, we provide contextual reasoning by extracting diagnosis and supporting facts from the entire video content to guide the extrapolative reasoning of GPT-4. Using Quilt-Instruct, we train Quilt-LLaVA, which can reason beyond the given single image patch, enabling diagnostic reasoning and the capability of spatial awareness. To evaluate Quilt-LLaVA, we propose a comprehensive evaluation dataset created from 985 images and 1283 human-generated question-answers directly extracted from videos. We also thoroughly evaluate Quilt-LLaVA using public histopathology datasets, where Quilt-LLaVA significantly outperforms SOTA by over 10% on relative GPT-4 score and 4% and 9% on open and closed set VQA. 
+          </p>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/teaser_vid.mp4"
+                type="video/mp4">
+      </video>
+      <h2 class="subtitle has-text-centered">
+        We have created a grounded image-text dataset from educational histopathology videos on YouTube. The bottom row displays an illustrative example. First, we <span style="color: blue;">detect frames that have a stable background</span>. Then we <span style="color: red;">extract the narrators' mouse cursors</span>. Then, we <span style="color: green;">perform spatio-temporal clustering on the mouse pointer locations to obtain dense visual groundings for the narrators' speech</span>. Using this method, we create grounded image-text dataset, from which we generate Quilt-Instruct to train our visual Language Learning Model, Quilt-LLaVA.
+
+
+
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+      <div class="section-title">
+        <h2 class="title is-3">Generating Quilt-Instruct</h2>
+      </div>
+
+    <div class="columns is-centered">
+
+      <!-- Cross domain. -->
+      <div class="column">
+        <div class="content">
+
+          <p>
+         <!--    We utilize GPT-4 to generate conversation and detailed description-based Q/A pairs from image captions. We refer these types of Q/A data as independent prompts, where each image/caption pair is considered independent of one another. However, unlike LLaVA-Med, which lacks spatial groundings, we extract mouse pointers to ground the narrator's speech into spatial regions of images, leading to better spatial awareness. -->
+
+         Similar to <a href="https://arxiv.org/abs/2306.00890"> LLaVA-Med</a>, we use conversation and detailed description based prompts (We call these independent prompts, where each image/caption pair is considered independent to one another), where we utilize GPT-4 to generate Q&A pairs from image captions. However unlike LLaVA-Med, which lacks spatial groundings, we extract mouse pointers to ground narrator's speech into spatial regions of images, leading to better spatial awareness. 
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="subtitle has-text-centered">Some examples of detailed description and conversation based Q&A samples from the given description.</h2>
+      <div id="results-carousel-face" class="carousel results-carousel">
+        <div class="item item-conv_1">
+          <div class="carousel-content">
+            <img src="static/images/conv_1.png"
+                   alt="conv1."
+                   style="width: 100%; height: auto;">
+          </div>
+        </div>
+        <div class="item item-conv_2">
+          <div class="carousel-content">
+            <img src="static/images/conv_2.png"
+                   alt="conv2."
+                   style="width: 100%; height: auto;">
+          </div>
+        </div>
+                <div class="item item-detail_1">
+          <div class="carousel-content">
+            <img src="static/images/detail_1.png"
+                   alt="detail1."
+                   style="width: 100%; height: auto;">
+          </div>
+        </div>
+
+                <div class="item item-detail_2">
+          <div class="carousel-content">
+            <img src="static/images/detail_2.png"
+                   alt="detail2."
+                   style="width: 100%; height: auto;">
+          </div>
+        </div>
+    </div>
+  </div>
+</section>
+
+
+
+<p>
+  Traditional image-caption datasets often consist of pairs that lack contextual connection, limiting the Q/A pairs generated by GPT-4 to the context of a single image. This is particularly a limitation for histopathology images, which require holistic analysis beyond a single image patch. To overcome this, we propose reasoning-based prompting techniques: Complex Reasoning and Iterative Abductive Reasoning, where we distill the global facts and the diagnosis from the broader video content, and leverage these when prompting GPT-4, enabling it to extrapolate in a contextually anchored manner, thereby reducing the risk of hallucinations.
+ </p>
+           <p>
+In complex reasoning, given a caption, along with a diagnosis and contributory facts, we prompt GPT-4 in a diagnostic reasoning task designed to extrapolate beyond the immediate context of the given caption. More broadly, we instruct GPT-4 to utilize its inherent medical knowledge to interpret the contents of a single image caption, while subconsciously incorporating the diagnosis and supporting facts extracted from the broader video.
+ </p>
+           <p>
+  In iterative abductive reasoning, we simulate a conversation between two GPT-4 agents, mimicking a scenario where a professional doctor uses our model to ask longer medically intricate questions about an image. The first agent, termed Human-GPT, is provided with a single image caption and is tasked with abductively reasoning about the possible diagnoses and the facts used to arrive at these conclusions. The second agent, referred to as the AI Assistant GPT, is privy to the diagnosis and facts, simulating someone who has viewed the WSI of this particular patient. The AI Assistant evaluates the accuracy of the abduction derived by Human-GPT and provides comments or hints at potentially overlooked details using its inherent medical knowledge while utilizing diagnosis and facts. The conversation continues back and forth until a conclusion is made or the conversation reaches to the upper limit. 
+            <br>
+          </p>
+
+
+          <section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="subtitle has-text-centered">Some examples of reasoning-based Q&A samples generated from the given caption, along with the diagnosis and the facts leading up to that diagnosis, extracted from the broader video content.</h2>
+      <div id="results-carousel-face" class="carousel results-carousel">
+        <div class="item item-clothing">
+          <div class="carousel-content">
+            <img src="static/images/complex_1.png"
+                   alt="shirt."
+                   style="width: 100%; height: auto;">
+          </div>
+        </div>
+        <div class="item item-couch">
+          <div class="carousel-content">
+            <img src="static/images/iterative_1.png"
+                   alt="couches."
+                   style="width: 100%; height: auto;">
+          </div>
+        </div>
+                <div class="item item-shirt">
+          <div class="carousel-content">
+            <img src="static/images/complex_2.png"
+                   alt="shirts."
+                   style="width: 100%; height: auto;">
+          </div>
+        </div>
+
+                <div class="item item-pants">
+          <div class="carousel-content">
+            <img src="static/images/iterative_2.png"
+                   alt="pants."
+                   style="width: 100%; height: auto;">
+          </div>
+        </div>
+    </div>
+  </div>
+</section>
+            </div>
+        </div>
+      </div>
+      <!--/ Cross domain. -->
+
+      <!-- New domain editing. -->
+    </div>
+    <!--/ New domain editing. -->
+  </div>
+</section>
+
+
+
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+      <div class="section-title">
+        <h2 class="title is-3">Model Architecture and Training</h2>
+      </div>
+
+    <div class="columns is-centered">
+
+      <!-- Cross domain. -->
+      <div class="column">
+        <div class="content">
+
+          <p>
+            We adoped the approach proposed in <a href="https://arxiv.org/abs/2306.00890"> LLaVA-Med</a>, where we initialize Quilt-LLaVA with the general-domain LLaVA and trained for two stages: Histopathology Domain Alignment using <a href="https://arxiv.org/abs/2306.112070"> Quilt</a> dataset and instruction-tuning on Quilt-Instruct dataset. 
+
+            <br>
+          </p>
+            <div class="publication-img">
+              <img id="style_transfer" src="static/images/quilt_llava2.png"/>
+            </div>
+        </div>
+      </div>
+      <!--/ Cross domain. -->
+
+      <!-- New domain editing. -->
+    </div>
+    <!--/ New domain editing. -->
+  </div>
+</section>
+
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+      <div class="section-title">
+        <h2 class="title is-3">Human Generated VQA Dataset for Evaluation</h2>
+      </div>
+
+    <div class="columns is-centered">
+
+      <!-- Cross domain. -->
+      <div class="column">
+        <div class="content">
+
+          <p>
+            To evaluate Quilt-LLaVA, alongside with public VQA pathology datasets, we also generated <span style="color: blue;">Quilt-VQA</span> by extracting Q&A dataset from naturally occurring questions/answers given in the videos. With the help of GPT4 and some handcrafted algorithms, we collect a rich evaluation dataset of 1283 Q&A pairs. Top two rows show image-dependent Q&A pairs and bottom two rows show general-knowledge Q&A pairs. The original question posed by the narrator of the video is highlighted in yellow.  
+
+            <br>
+          </p>
+            <div class="publication-img">
+              <img id="style_transfer" src="static/images/quilt_vqa_samples.png"/>
+            </div>
+
+            Furthermore, we experimented with the visual prompting methodology outlined in <a href="https://arxiv.org/abs/2304.06712"> Visual Prompting using Red Circle</a> for evaluating the performance of our
+model. This involves utilizing the subset of QUILT-VQA with bounding boxes to create ellipses that encapsulate the concepts highlighted by these boxes.
+
+              <div class="publication-img">
+              <img id="style_transfer" src="static/images/visual_prompting.png"/>
+            </div>
+        </div>
+      </div>
+      <!--/ Cross domain. -->
+
+      <!-- New domain editing. -->
+    </div>
+    <!--/ New domain editing. -->
+  </div>
+</section>
+
+
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+      <div class="section-title">
+        <h2 class="title is-3">Results</h2>
+      </div>
+
+    <div class="columns is-centered">
+
+      <!-- Cross domain. -->
+      <div class="column">
+        <div class="content">
+
+          <p>
+            We beat SOTA on both open ended (free form text generation) and close set (multiple choice based answers) tasks on both public and in-house datasets. 
+
+
+            
+            <br>
+          </p>
+            <div class="publication-img">
+              <img id="style_transfer" src="static/images/results_table.png"/>
+            </div>
+
+        </div>
+      </div>
+      <!--/ Cross domain. -->
+
+      <!-- New domain editing. -->
+    </div>
+    <!--/ New domain editing. -->
+  </div>
+</section>
+
+
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="subtitle has-text-centered">Qualitative Comparisons Against SOTA Visual LLMs.</h2>
+      <div id="results-carousel-face" class="carousel results-carousel">
+        <div class="item item-clothing">
+          <div class="carousel-content">
+            <img src="static/images/example_1.png"
+                   alt="shirt."
+                   style="width: 100%; height: auto;">
+          </div>
+        </div>
+        <div class="item item-couch">
+          <div class="carousel-content">
+            <img src="static/images/example_2.png"
+                   alt="couches."
+                   style="width: 100%; height: auto;">
+          </div>
+        </div>
+                <div class="item item-shirt">
+          <div class="carousel-content">
+            <img src="static/images/example_3.png"
+                   alt="shirts."
+                   style="width: 100%; height: auto;">
+          </div>
+        </div>
+
+                <div class="item item-pants">
+          <div class="carousel-content">
+            <img src="static/images/example_4.png"
+                   alt="pants."
+                   style="width: 100%; height: auto;">
+          </div>
+        </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <p>If you find our work useful, please cite our paper:</p>
+    <pre><code>@misc{under review,
+      doi = {Will be added when the paper is indexed by google scholar},
+      url = {https://arxiv.org/abs/2312.04746},
+      author = {Will be added when the paper is indexed by google scholar},
+      title = {Quilt-LLaVA: Visual Instruction Tuning by Extracting Localized Narratives from Open-Source Histopathology Videos},
+      year = {2023},
+      primaryClass={cs.CV}
+}</code></pre>
+  </div>
+</section>
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="https://arxiv.org/abs/notyet">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="somegithublink" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            Website source code based on the <a href="https://nerfies.github.io/"> Nerfies</a> and <a href="https://diffuse-to-choose.github.io/"> Diffuse-to-Choose</a>  project pages. If you want to reuse it, please credit them appropriately.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
