@@ -164,7 +164,7 @@
         <div class="content has-text-justified">
           <p>
 
-            * Visual Instruction Tuning in histopathology has not been successfull so far due to two reasons: 1) Image-language datasets lacking spatial groundings for words, thus it is hard for models to have spatial awareness, 2) Existing <a href="https://arxiv.org/abs/2306.00890"> datasets</a> are based of PubMed, which provides isolated image-text pairs, with which it is very challenging to encode holistic understanding.
+            * Visual Instruction Tuning in histopathology has not been successful so far for two reasons: 1) The lack of spatial groundings for words in image-language datasets makes it difficult for models to develop spatial awareness, 2) The existing <a href="https://arxiv.org/abs/2306.00890">datasets</a> are based on PubMed, providing patch-level "isolated" image-text pairs, which makes it challenging to encode a holistic understanding at the whole-slide level.
             * We utilize educational YouTube content to establish a visual instruction tuning dataset. First, we extract narrator's mouse cursor to ground their words in images to encode spatial awareness, and second we utilize broader video content when generating our instruction tuning dataset, thereby providing holistic understanding of Whole Slide Images.
             * With our instruction tuning data, we jointly train a vision and text encoder to have a visual chatbot, which outperforms SOTA on both in house and public histopathology benchmarks.
 
